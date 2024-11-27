@@ -14,7 +14,7 @@ Para la creación de esta aplicación fueron necesarias 3 clases:
 
 ### Datos
 
-En esta clase se guarda la información de los botones ( color y número asignado), junto a los estados del programa (Inicio, Generando, Adivinando y Perdido)
+En esta clase se guarda la información de los botones ( color y número asignado), junto a los estados del programa (Inicio, Generando, Jugando y Perdido)
 
 Los estados se encargan de mantener un orden, por ejemplo, cuando el estado es Inicio, lo único activo en el programa es el boton de inicio, una vez pulsado se pasa al estado generando, que genera la secuencia, y al terminar empieza la interaccion con el usuario con el estado Adivinando.
 
@@ -34,6 +34,10 @@ Aqui se establecen los metodos que daran funcionalidad al juego, estos metodos s
 *terminarPartida*: En caso de que el estado pase a Perdido, lanza el mensaje de derrota.
 
 *getButtons*: Devuelve la lista con los botones del juego
+
+### IU
+
+Este es el apartado visual e interactivo del programa, aqui es donde se muestran los mensajes sobre la ronda o la derrota. Tambien es donde el usuario puede interacturar con los botones para iniciar la partida, o para introducir la secuencia.
 
 
 
