@@ -1,14 +1,27 @@
 package com.example.myapplication
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class ModelView {
+class ModelView(): ViewModel() {
+
+    private val TAG_LOG = "miDebug"
 
     //Variable que almacena el estado del juego como observable.
     val estadoLiveData : MutableLiveData<Estados> = MutableLiveData(Estados.INICIO)
 
     //Lista de colores con mutableList para agregar y eliminar elementos
     private val secuenciaColores = mutableListOf<ColoresBotones>()
+
+    //Variable que guarda el mensaje mostrado por pantalla
+    var mensajeC = mutableStateOf("")
+
+    //Variable que almacena el índice de la secuencia de colores
+    private var indiceActual = 0
 
     /**
      * Función que inicia el juego.
@@ -29,7 +42,24 @@ class ModelView {
         val ColorSecuencia = ColoresBotones.values().first { it.value == randomButtonIndex }
         secuenciaColores.add(ColorSecuencia)
         Datos.ronda.value = Datos.ronda.value?.plus(1) // Incrementa la ronda
+        mostrarSecuencia()
+    }
 
+    /**
+     * Función que muestra la secuencia de colores generada aleatoriamente con el metodo generarSecuencia a traves de secuenciaColores.
+     */
+    private fun mostrarSecuencia() {
+        viewModelScope.launch {
+            for (color in secuenciaColores) {
+                mensajeC.value = color.label
+                delay(500)
+                mensajeC.value = ""
+                delay(500)
+            }
+            delay(500)
+            estadoLiveData.value = Estados.JUGANDO
+            indiceActual = 0
+        }
     }
 
 
