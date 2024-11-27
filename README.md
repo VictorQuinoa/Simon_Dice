@@ -23,21 +23,35 @@ Los estados se encargan de mantener un orden, por ejemplo, cuando el estado es I
 
 Aqui se establecen los metodos que daran funcionalidad al juego, estos metodos son:
 
-*empezarPartida*: Inicia el juego llamando a la generación de la secuencia, cambiando el estado a generando.
+- *empezarPartida*: Inicia el juego llamando a la generación de la secuencia, cambiando el estado a generando.
 
-*generarSecuencia*: Genera una secuencia aleatoria teniendo en cuenta la clase Datos para asignar cada numero generado al botón de su color.
+- *generarSecuencia*: Genera una secuencia aleatoria teniendo en cuenta la clase Datos para asignar cada numero generado al botón de su color.
 
-*mostrarSecuencia*: Se encarga de mandar el mensaje que indica el boton que debe pulsar el jugador.
+- *mostrarSecuencia*: Se encarga de mandar el mensaje que indica el boton que debe pulsar el jugador.
 
-*compararColorSeleccionado*: Este metodo comprueba si el botón pulsado por el jugador coincide con el generado por el programa, si es el mismo, se pasa la ronda, en caso contrario, el estado pasa a Perdido y vuelve a Inicio.
+- *compararColorSeleccionado*: Este metodo comprueba si el botón pulsado por el jugador coincide con el generado por el programa, si es el mismo, se pasa la ronda, en caso contrario, el estado pasa a Perdido y vuelve a Inicio.
 
-*terminarPartida*: En caso de que el estado pase a Perdido, lanza el mensaje de derrota.
+- *terminarPartida*: En caso de que el estado pase a Perdido, lanza el mensaje de derrota.
 
-*getButtons*: Devuelve la lista con los botones del juego
+- *getButtons*: Devuelve la lista con los botones del juego
 
 ### IU
 
 Este es el apartado visual e interactivo del programa, aqui es donde se muestran los mensajes sobre la ronda o la derrota. Tambien es donde el usuario puede interacturar con los botones para iniciar la partida, o para introducir la secuencia.
+
+
+### Observer
+
+El observer es utilizado para este proyecto para mantener la sincronizacion del juego, sus funciones son:
+
+- El control de los estados, manteniendo actualizados los cambios para que el programa se ejecute correctamente.
+- Los cambios en las rondas
+
+  ```
+  val estado by viewModel.estadoLiveData.observeAsState(Estados.INICIO)
+
+  val ronda by Datos.ronda.observeAsState(0)
+  ```
 
 
 
