@@ -13,9 +13,10 @@ Para la creación de esta aplicación fueron necesarias 3 clases:
 
 - Datos , encargada de la información de los botones y los estados de la aplicación.
 
-- ModelView, encargada de la lógica del programa.
+- ModelView, encargada de la lógica del programa tomando los datos de la clase Datos y gestionando los estados de la aplicación.
 
-- IU, encargada de la interacción con el usuario y el empleo de la ModelView
+- IU, encargada de la interacción con el usuario y la ejecucion de la ModelView dependiendo de las señales recibidas.
+
 
 
 ### Datos
