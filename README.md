@@ -53,6 +53,47 @@ El observer es utilizado para este proyecto para mantener la sincronizacion del 
   val ronda by Datos.ronda.observeAsState(0)
   ```
 
+  ### Corutinas
+
+ La corutinas se emplean para evitar interupciones en la ejecucion en determinados momentos:
+ - Para mostrar las secuencias de colores a repetir.
+   
+   ```
+   private fun mostrarSecuencia() {
+    viewModelScope.launch {  // Lanza una corrutina en el ViewModel
+        for (color in secuenciaColores) {
+            mensajeC.value = color.label  // Actualiza el mensaje del color actual
+            delay(500)  // Muestra el color durante 500 ms
+            mensajeC.value = ""  // Limpia el mensaje
+            delay(500)  // Pausa antes del siguiente color
+        }
+        estadoLiveData.value = Estados.JUGANDO  // Cambia el estado al finalizar la secuencia
+        indiceActual = 0
+    } 
+   }
+   ```
+ - Generar el nuevo color de la próxima ronda
+
+   ```
+   if (indiceActual == secuenciaColores.size) {
+    estadoLiveData.value = Estados.GENERANDO
+    viewModelScope.launch {
+        delay(1500)  // Pausa antes de generar el siguiente color
+        generarSecuencia()
+    }
+   }
+   ```
+   
+ - El cambio de color en el botón que indica que forma parte de la secuencia
+
+   ```
+   if (iluminado == buttonData.colorButton) {
+    LaunchedEffect(iluminado) {
+        delay(500)  // Ilumina el botón durante 500 ms
+        iluminado = null  // Apaga la iluminación
+    }
+   }
+   ```
 
 
 
