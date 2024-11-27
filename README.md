@@ -1,5 +1,11 @@
 # Simon_Dice
 
+
+
+<p align="center">
+  <img src="https://github.com/VictorQuinoa/Simon_Dice/blob/main/Imagenes/Simon.png?raw=true" />
+</p>
+
 ## Desarrollo de la aplicación simón dice
 
 Para la creación de esta aplicación fueron necesarias 3 clases:
@@ -16,7 +22,7 @@ Para la creación de esta aplicación fueron necesarias 3 clases:
 
 En esta clase se guarda la información de los botones ( color y número asignado), junto a los estados del programa (Inicio, Generando, Jugando y Perdido)
 
-Los estados se encargan de mantener un orden, por ejemplo, cuando el estado es Inicio, lo único activo en el programa es el boton de inicio, una vez pulsado se pasa al estado generando, que genera la secuencia, y al terminar empieza la interaccion con el usuario con el estado Adivinando.
+Los estados se encargan de mantener un orden, por ejemplo, cuando el estado es Inicio, lo único activo en el programa es el boton de inicio, una vez pulsado se pasa al estado generando, que genera la secuencia y desactiva el boton de inicio, y al terminar empieza la interacción con el usuario con el estado Adivinando.
 
 
 ### ModelView
@@ -27,7 +33,7 @@ Aqui se establecen los metodos que daran funcionalidad al juego, estos metodos s
 
 - *generarSecuencia*: Genera una secuencia aleatoria teniendo en cuenta la clase Datos para asignar cada numero generado al botón de su color.
 
-- *mostrarSecuencia*: Se encarga de mandar el mensaje que indica el boton que debe pulsar el jugador.
+- *mostrarSecuencia*: Se encarga de mandar el mensaje que indica el botón que debe pulsar el jugador.
 
 - *compararColorSeleccionado*: Este metodo comprueba si el botón pulsado por el jugador coincide con el generado por el programa, si es el mismo, se pasa la ronda, en caso contrario, el estado pasa a Perdido y vuelve a Inicio.
 
@@ -55,7 +61,8 @@ El observer es utilizado para este proyecto para mantener la sincronizacion del 
 
   ### Corutinas
 
- La corutinas se emplean para evitar interupciones en la ejecucion en determinados momentos:
+ La corutinas se emplean para evitar interupciones en la ejecución en determinados momentos:
+ 
  - Para mostrar las secuencias de colores a repetir.
    
    ```
@@ -73,7 +80,7 @@ El observer es utilizado para este proyecto para mantener la sincronizacion del 
    }
    ```
  - Generar el nuevo color de la próxima ronda
-
+   
    ```
    if (indiceActual == secuenciaColores.size) {
     estadoLiveData.value = Estados.GENERANDO
@@ -95,5 +102,10 @@ El observer es utilizado para este proyecto para mantener la sincronizacion del 
    }
    ```
 
+  ### Imagen de la aplicación 
+  
+  <p align="center">
+    <img src="https://github.com/VictorQuinoa/Simon_Dice/blob/main/Imagenes/Aplicacion.png?raw=true" />
+  </p>
 
 
