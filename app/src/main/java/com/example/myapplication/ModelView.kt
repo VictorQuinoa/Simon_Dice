@@ -1,7 +1,9 @@
 package com.example.myapplication
 
 import android.util.Log
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -93,6 +95,21 @@ class ModelView(): ViewModel() {
         Datos.ronda.value = 0
         Log.d(TAG_LOG, "Estado: ${estadoLiveData.value}")
     }
+
+
+
+    /**
+     * Función que retorna una lista de botones.
+     */
+    fun getButtons(): List<ButtonData> {
+        return listOf(
+            ButtonData(ColoresBotones.VERDE, RoundedCornerShape(topStart = 180.dp)),
+            ButtonData(ColoresBotones.ROJO, RoundedCornerShape(topEnd = 180.dp)),
+            ButtonData(ColoresBotones.AMARILLO, RoundedCornerShape(bottomStart = 180.dp)),
+            ButtonData(ColoresBotones.AZUL, RoundedCornerShape(bottomEnd = 180.dp))
+        )
+    }
+
 
 
 
