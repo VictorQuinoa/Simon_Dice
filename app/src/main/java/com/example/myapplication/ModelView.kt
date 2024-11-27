@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -61,6 +62,39 @@ class ModelView(): ViewModel() {
             indiceActual = 0
         }
     }
+
+    /**
+     * Función que compara el color seleccionado por el jugador con metodo GenerarSecuencia, si no es correcto, termina la partida.
+     */
+    fun compararColorSeleccionado(colorSeleccionado: ColoresBotones): Boolean {
+        if (colorSeleccionado == secuenciaColores[indiceActual]) {
+            indiceActual++
+            if (indiceActual == secuenciaColores.size) {
+                estadoLiveData.value = Estados.GENERANDO
+                viewModelScope.launch {
+                    delay(1500)
+                    generarSecuencia()
+                }
+            }
+            return true
+        } else {
+            terminarPartida()
+            return false
+        }
+    }
+
+    /**
+     * Función que finaliza el juego.
+     * El estado pasa a perdido e indica por pantalla que la partida ha acabado.
+     */
+    fun terminarPartida() {
+        estadoLiveData.value = Estados.PERDIDO
+        mensajeC.value = "Perdiste"
+        Datos.ronda.value = 0
+        Log.d(TAG_LOG, "Estado: ${estadoLiveData.value}")
+    }
+
+
 
 
 }
