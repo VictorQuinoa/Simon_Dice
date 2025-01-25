@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.draw.clip
+import com.example.myapplication.Datos.recordMaximo
 import kotlinx.coroutines.delay
 
 
@@ -34,13 +35,20 @@ fun IU(viewModel: ModelView) {
     val TAG_LOG = "miDebug"
     val estado by viewModel.estadoLiveData.observeAsState(Estados.INICIO)
     val ronda by Datos.ronda.observeAsState(0) // Observa el LiveData de ronda
-
+    val record by Datos.recordMaximo.observeAsState()
 
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.background(Color.White)
     ) {
+
+        Text(
+            text = "Record: $record",
+            color = Color.Black,
+            modifier = Modifier.padding(16.dp)
+        )
+
         if (estado == Estados.PERDIDO) {
             Text(
                 text = "Has perdido",

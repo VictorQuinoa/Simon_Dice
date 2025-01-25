@@ -7,10 +7,12 @@ import androidx.lifecycle.MutableLiveData
 
 object Datos {
     /**
-     * Variables numero y ronda.
+     * Variables numero, ronda y record máximo alcanzado.
      */
     var numero: Int = 0
     var ronda : MutableLiveData <Int> = MutableLiveData(0)
+    var recordMaximo: MutableLiveData<Int> = MutableLiveData(0)
+
 }
 
 
@@ -29,7 +31,6 @@ enum class ColoresBotones(val color: Color, val label: String, val value: Int) {
  * Clase que se encarga de almacenar los datos de los botones y establece la forma redondeada de sus esquinas.
  */
 data class ButtonData(val colorButton: ColoresBotones, val shape: RoundedCornerShape)
-
 
 /**
  * Estados del juego

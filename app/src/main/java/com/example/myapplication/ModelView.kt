@@ -92,6 +92,14 @@ class ModelView(): ViewModel() {
     fun terminarPartida() {
         estadoLiveData.value = Estados.PERDIDO
         mensajeC.value = "Perdiste"
+        //Actualización del record alcanzado
+        Datos.ronda.value?.let { rondaActual ->
+            if(rondaActual > (Datos.recordMaximo.value ?:0)) {
+                Datos.recordMaximo.value = rondaActual
+            }
+
+        }
+
         Datos.ronda.value = 0
         Log.d(TAG_LOG, "Estado: ${estadoLiveData.value}")
     }
