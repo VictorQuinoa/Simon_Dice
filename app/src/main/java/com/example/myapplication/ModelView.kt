@@ -26,6 +26,9 @@ class ModelView(): ViewModel() {
     //Variable que almacena el índice de la secuencia de colores
     private var indiceActual = 0
 
+    //Variable de la cuenta atras
+    val cuentaAtrasLiveData : MutableLiveData<EstadosCuentaAtras?> = MutableLiveData(EstadosCuentaAtras.AUX0)
+
     /**
      * Función que inicia el juego.
      * Cambia el estado a GENERANDO y llama a la función crearRandomBoton.
@@ -34,6 +37,7 @@ class ModelView(): ViewModel() {
         estadoLiveData.value = Estados.GENERANDO
         secuenciaColores.clear()
         generarSecuencia()
+        cuentaAtras()
     }
 
     /**
@@ -116,6 +120,31 @@ class ModelView(): ViewModel() {
             ButtonData(ColoresBotones.AMARILLO, RoundedCornerShape(bottomStart = 180.dp)),
             ButtonData(ColoresBotones.AZUL, RoundedCornerShape(bottomEnd = 180.dp))
         )
+    }
+
+    /**
+     * Cuenta atras para seleccionar la secuencia en las rondas, si se acaba el tiempo, la aplicación pasa al estado PERDIDO
+     */
+    fun cuentaAtras(){
+        viewModelScope.launch {
+            cuentaAtrasLiveData.value = EstadosCuentaAtras.AUX5
+            Log.d(TAG_LOG,"estado (corutina): ${cuentaAtrasLiveData.value}")
+            delay(1000)
+            cuentaAtrasLiveData.value= EstadosCuentaAtras.AUX4
+            Log.d(TAG_LOG,"estado (corutina): ${cuentaAtrasLiveData.value}")
+            delay(1000)
+            cuentaAtrasLiveData.value= EstadosCuentaAtras.AUX3
+            Log.d(TAG_LOG,"estado (corutina): ${cuentaAtrasLiveData.value}")
+            delay(1000)
+            cuentaAtrasLiveData.value= EstadosCuentaAtras.AUX2
+            Log.d(TAG_LOG,"estado (corutina): ${cuentaAtrasLiveData.value}")
+            delay(1000)
+            cuentaAtrasLiveData.value= EstadosCuentaAtras.AUX1
+            Log.d(TAG_LOG,"estado (corutina): ${cuentaAtrasLiveData.value}")
+            delay(1000)
+            cuentaAtrasLiveData.value= EstadosCuentaAtras.AUX0
+            estadoLiveData.value = Estados.PERDIDO
+        }
     }
 
 

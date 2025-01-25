@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.myapplication.Datos.recordMaximo
 import kotlinx.coroutines.delay
 
@@ -36,11 +39,14 @@ fun IU(viewModel: ModelView) {
     val estado by viewModel.estadoLiveData.observeAsState(Estados.INICIO)
     val ronda by Datos.ronda.observeAsState(0) // Observa el LiveData de ronda
     val record by Datos.recordMaximo.observeAsState()
+    val cuentaAtras by viewModel.cuentaAtrasLiveData.observeAsState(EstadosCuentaAtras.AUX5)
 
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.background(Color.White)
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
 
         Text(
@@ -56,7 +62,14 @@ fun IU(viewModel: ModelView) {
                 modifier = Modifier.padding(16.dp)
             )
         }
-
+/*
+        Text(
+            text = "Cuenta atras: ${cuentaAtras?.segundos}",
+            fontSize = 20.sp,
+            color = Color.Black,
+            modifier = Modifier.padding(16.dp)
+        )
+*/
 
         Text(
             text = "Ronda: $ronda",
@@ -64,11 +77,24 @@ fun IU(viewModel: ModelView) {
             modifier = Modifier.padding(16.dp)
         )
 
-
+        cuentaAtras(viewModel)
         Botones(viewModel, estado, TAG_LOG)
         Boton_Start(viewModel, estado)
     }
 }
+
+@Composable
+fun cuentaAtras(viewModel: ModelView) {
+    val cuentaAtras by viewModel.cuentaAtrasLiveData.observeAsState(EstadosCuentaAtras.AUX5)
+
+    Text(
+        text = "Cuenta regresiva: ${cuentaAtras?.segundos}",
+        fontSize = 20.sp,
+        color = Color.Black,
+        modifier = Modifier.padding(16.dp)
+    )
+}
+
 
 
 /**

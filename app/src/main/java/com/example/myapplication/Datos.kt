@@ -41,5 +41,17 @@ enum class Estados (val value: Int, val label: String) {
     JUGANDO(2, "Adivinando"),
     PERDIDO(3, "Perdido")
 
+}
 
+/**
+ * Estados auxilares utilizados para el contador de la aplicación
+ * @param segundos: numer de la cuenta atrás
+ */
+enum class EstadosCuentaAtras(val segundos: Int){
+    AUX0(0),
+    AUX1(1),
+    AUX2(2),
+    AUX3(3),
+    AUX4(4),
+    AUX5(5)
 }
