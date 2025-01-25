@@ -3,9 +3,11 @@ package com.example.myapplication
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.myapplication.Datos.recordMaximo
@@ -41,35 +44,31 @@ fun IU(viewModel: ModelView) {
     val record by Datos.recordMaximo.observeAsState()
     val cuentaAtras by viewModel.cuentaAtrasLiveData.observeAsState(EstadosCuentaAtras.AUX5)
 
+
+
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.background(Color.White)
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(12.dp)
     ) {
 
         Text(
             text = "Record: $record",
             color = Color.Black,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(12.dp)
         )
 
         if (estado == Estados.PERDIDO) {
             Text(
                 text = "Has perdido",
                 color = Color.Black,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(12.dp)
             )
         }
-/*
-        Text(
-            text = "Cuenta atras: ${cuentaAtras?.segundos}",
-            fontSize = 20.sp,
-            color = Color.Black,
-            modifier = Modifier.padding(16.dp)
-        )
-*/
+
 
         Text(
             text = "Ronda: $ronda",
@@ -88,10 +87,10 @@ fun cuentaAtras(viewModel: ModelView) {
     val cuentaAtras by viewModel.cuentaAtrasLiveData.observeAsState(EstadosCuentaAtras.AUX5)
 
     Text(
-        text = "Cuenta regresiva: ${cuentaAtras?.segundos}",
-        fontSize = 20.sp,
+        text = "Cuenta atras: ${cuentaAtras?.segundos}",
+        fontSize = 10.sp,
         color = Color.Black,
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(12.dp)
     )
 }
 
@@ -142,7 +141,7 @@ fun Botones(viewModel: ModelView, estado: Estados, TAG_LOG: String) {
                         ),
                         modifier = Modifier
                             .padding(5.dp)
-                            .size(width = 180.dp, height = 180.dp),
+                            .size(width = 160.dp, height = 160.dp),
                         shape = RoundedCornerShape(16.dp), // Bordes redondeados para el botón
                     ) {}
 
@@ -163,15 +162,22 @@ fun Botones(viewModel: ModelView, estado: Estados, TAG_LOG: String) {
  */
 @Composable
 fun Boton_Start(viewModel: ModelView, estado: Estados) {
-    Button(
-        onClick = {
-            viewModel.empezarPartida()
-        },
+    Box(
         modifier = Modifier
-            .padding(5.dp)
-            .size(width = 180.dp, height = 50.dp),
-        enabled = estado == Estados.INICIO || estado == Estados.PERDIDO
+            .fillMaxWidth()
+            .padding(10.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Text("Start")
+        Button(
+            onClick = {
+                viewModel.empezarPartida()
+            },
+            modifier = Modifier
+                .padding(5.dp)
+                .size(width = 180.dp, height = 50.dp),
+            enabled = estado == Estados.INICIO || estado == Estados.PERDIDO
+        ) {
+            Text("Start")
+        }
     }
 }
