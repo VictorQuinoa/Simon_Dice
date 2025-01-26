@@ -84,7 +84,7 @@ fun IU(viewModel: ModelView) {
 
 @Composable
 fun cuentaAtras(viewModel: ModelView) {
-    val cuentaAtras by viewModel.cuentaAtrasLiveData.observeAsState(EstadosCuentaAtras.AUX5)
+    val cuentaAtras by viewModel.cuentaAtrasLiveData.observeAsState(EstadosCuentaAtras.AUX0)
 
     Text(
         text = "Cuenta atras: ${cuentaAtras?.segundos}",

@@ -37,7 +37,7 @@ class ModelView(): ViewModel() {
         estadoLiveData.value = Estados.GENERANDO
         secuenciaColores.clear()
         generarSecuencia()
-        cuentaAtras()
+     //   cuentaAtras()
     }
 
     /**
@@ -66,7 +66,9 @@ class ModelView(): ViewModel() {
             delay(500)
             estadoLiveData.value = Estados.JUGANDO
             indiceActual = 0
+            cuentaAtras()
         }
+
     }
 
     /**
@@ -77,6 +79,8 @@ class ModelView(): ViewModel() {
             indiceActual++
             if (indiceActual == secuenciaColores.size) {
                 estadoLiveData.value = Estados.GENERANDO
+                cuentaAtrasLiveData.value = EstadosCuentaAtras.AUX0
+
                 viewModelScope.launch {
                     delay(1500)
                     generarSecuencia()
@@ -125,29 +129,25 @@ class ModelView(): ViewModel() {
     /**
      * Cuenta atras para seleccionar la secuencia en las rondas, si se acaba el tiempo, la aplicación pasa al estado PERDIDO
      */
-    fun cuentaAtras(){
+    fun cuentaAtras() {
         viewModelScope.launch {
-            cuentaAtrasLiveData.value = EstadosCuentaAtras.AUX5
-            Log.d(TAG_LOG,"estado (corutina): ${cuentaAtrasLiveData.value}")
-            delay(1000)
-            cuentaAtrasLiveData.value= EstadosCuentaAtras.AUX4
-            Log.d(TAG_LOG,"estado (corutina): ${cuentaAtrasLiveData.value}")
-            delay(1000)
-            cuentaAtrasLiveData.value= EstadosCuentaAtras.AUX3
-            Log.d(TAG_LOG,"estado (corutina): ${cuentaAtrasLiveData.value}")
-            delay(1000)
-            cuentaAtrasLiveData.value= EstadosCuentaAtras.AUX2
-            Log.d(TAG_LOG,"estado (corutina): ${cuentaAtrasLiveData.value}")
-            delay(1000)
-            cuentaAtrasLiveData.value= EstadosCuentaAtras.AUX1
-            Log.d(TAG_LOG,"estado (corutina): ${cuentaAtrasLiveData.value}")
-            delay(1000)
-            cuentaAtrasLiveData.value= EstadosCuentaAtras.AUX0
-            estadoLiveData.value = Estados.PERDIDO
+            for (i in 5 downTo 0) {
+                // Si el estado del juego ya no es JUGANDO, salimos del contador
+                if (estadoLiveData.value != Estados.JUGANDO) {
+                    break
+                }
+
+                // Actualizar el estado de la cuenta atrás
+                cuentaAtrasLiveData.postValue(EstadosCuentaAtras.values().find { it.segundos == i })
+                delay(1000) // Esperar 1 segundo
+            }
+
+            // Si al finalizar el contador el estado sigue siendo JUGANDO, el jugador pierde
+            if (estadoLiveData.value == Estados.JUGANDO) {
+                estadoLiveData.postValue(Estados.PERDIDO)
+            }
         }
     }
-
-
 
 
 
