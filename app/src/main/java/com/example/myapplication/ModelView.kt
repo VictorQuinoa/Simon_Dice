@@ -66,7 +66,7 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
     private fun mostrarSecuencia() {
         viewModelScope.launch {
             for (color in secuenciaColores) {
-
+                playSound(color = color)
                 mensajeC.value = color.label
                 delay(500)
                 mensajeC.value = ""
@@ -173,10 +173,10 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
                 .setMaxStreams(1)
                 .build()
 
-            soundMap[ColoresBotones.VERDE] = soundPool.load(context, R.raw.SonidoBoton, 1)
-            soundMap[ColoresBotones.ROJO] = soundPool.load(context, R.raw.SonidoBoton, 1)
-            soundMap[ColoresBotones.AMARILLO] = soundPool.load(context, R.raw.SonidoBoton, 1)
-            soundMap[ColoresBotones.AZUL] = soundPool.load(context, R.raw.SonidoBoton, 1)
+            soundMap[ColoresBotones.VERDE] = soundPool.load(context, R.raw.sonido_boton, 1)
+            soundMap[ColoresBotones.ROJO] = soundPool.load(context, R.raw.sonido_boton, 1)
+            soundMap[ColoresBotones.AMARILLO] = soundPool.load(context, R.raw.sonido_boton, 1)
+            soundMap[ColoresBotones.AZUL] = soundPool.load(context, R.raw.sonido_boton, 1)
         }
             fun playSound(color:ColoresBotones){
                 soundMap[color]?.let { soundId ->
