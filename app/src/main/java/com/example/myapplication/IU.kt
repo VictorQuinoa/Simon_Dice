@@ -127,6 +127,7 @@ fun Botones(viewModel: ModelView, estado: Estados, TAG_LOG: String) {
                     val isIlluminated = mensajeC == buttonData.colorButton.label || iluminado == buttonData.colorButton
                     Button(
                         onClick = {
+                            viewModel.playSound(color)
                             if (estado == Estados.JUGANDO) {
                                 Log.d(TAG_LOG, buttonData.colorButton.label)
                                 iluminado = buttonData.colorButton
