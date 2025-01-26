@@ -1,5 +1,8 @@
 package com.example.myapplication
 
+import android.content.Context
+import android.media.AudioAttributes
+import android.media.SoundPool
 import android.util.Log
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.mutableStateOf
@@ -58,6 +61,7 @@ class ModelView(): ViewModel() {
     private fun mostrarSecuencia() {
         viewModelScope.launch {
             for (color in secuenciaColores) {
+
                 mensajeC.value = color.label
                 delay(500)
                 mensajeC.value = ""
@@ -146,6 +150,40 @@ class ModelView(): ViewModel() {
             if (estadoLiveData.value == Estados.JUGANDO) {
                 estadoLiveData.postValue(Estados.PERDIDO)
             }
+        }
+    }
+
+    class SoundManager(context: Context){
+        private val soundPool: SoundPool
+        private  val soundMap: MutableMap<ColoresBotones, Int> = mutableMapOf()
+
+        init{
+            val audioAttributes = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+
+            soundPool = SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(1)
+                .build()
+
+            soundMap[ColoresBotones.VERDE] = soundPool.load(context,R.raw.SonidoBoton,1)
+            soundMap[ColoresBotones.ROJO] = soundPool.load(context,R.raw.SonidoBoton,1)
+            soundMap[ColoresBotones.AMARILLO] = soundPool.load(context,R.raw.SonidoBoton,1)
+            soundMap[ColoresBotones.AZUL] = soundPool.load(context,R.raw.SonidoBoton,1)
+
+            fun playSound(color:ColoresBotones){
+                soundMap[color]?.let { soundId ->
+                    soundPool.play(soundId, 1f,1f,1,0,1f)
+
+                }
+            }
+
+            fun release() {
+                soundPool.release()
+            }
+
         }
     }
 
