@@ -61,23 +61,34 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
     }
 
     /**
+     * Función que ilumina el color de la secuencia
+     */
+    private suspend fun iluminarColor(color: ColoresBotones) {
+        mensajeC.value = color.label
+        playSound(color)
+        delay(1000)
+        mensajeC.value = ""
+        delay(1000)
+    }
+    /**
      * Función que muestra la secuencia de colores generada aleatoriamente con el metodo generarSecuencia a traves de secuenciaColores.
      */
     private fun mostrarSecuencia() {
         viewModelScope.launch {
             for (color in secuenciaColores) {
-                playSound(color = color)
-                mensajeC.value = color.label
-                delay(500)
-                mensajeC.value = ""
-                delay(500)
+                iluminarColor(color)
             }
-            delay(500)
-            estadoLiveData.value = Estados.JUGANDO
-            indiceActual = 0
-            cuentaAtras()
+            iniciarTurnoJugador()
         }
+    }
 
+    /**
+     * Función que inicia el turno del jugador cambiando el estado de la aplicación
+     */
+    private fun iniciarTurnoJugador() {
+        estadoLiveData.value = Estados.JUGANDO
+        indiceActual = 0
+        cuentaAtras() // Iniciar la cuenta atrás para el turno del jugador
     }
 
     /**
