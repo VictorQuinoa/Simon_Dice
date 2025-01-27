@@ -19,7 +19,7 @@ object Datos {
 /**
  * Clase que contiene los colores de cada botón y su valor asignado.
  */
-enum class ColoresBotones(val color: Color, val label: String, val value: Int, soubdRes: Int) {
+enum class ColoresBotones(val color: Color, val label: String, val value: Int,val soundRes: Int) {
     VERDE(Color.Green, "Verde", 1, R.raw.sonido_boton),
     ROJO(Color.Red, "Rojo", 2,R.raw.sonido_boton),
     AMARILLO(Color.Yellow, "Amarillo", 3, R.raw.sonido_boton),

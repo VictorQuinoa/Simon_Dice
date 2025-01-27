@@ -184,11 +184,11 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
                 .setMaxStreams(1)
                 .build()
 
-            soundMap[ColoresBotones.VERDE] = soundPool.load(context, R.raw.sonido_boton, 1)
-            soundMap[ColoresBotones.ROJO] = soundPool.load(context, R.raw.sonido_boton, 1)
-            soundMap[ColoresBotones.AMARILLO] = soundPool.load(context, R.raw.sonido_boton, 1)
-            soundMap[ColoresBotones.AZUL] = soundPool.load(context, R.raw.sonido_boton, 1)
+            ColoresBotones.values().forEach { color ->
+                soundMap[color] = soundPool.load(context, color.soundRes, 1)
+            }
         }
+
             fun playSound(color:ColoresBotones){
                 soundMap[color]?.let { soundId ->
                     soundPool.play(soundId, 1f,1f,1,0,1f)
