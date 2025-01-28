@@ -54,9 +54,9 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
     private suspend fun iluminarColor(color: ColoresBotones) {
         Datos.mensajeC.value = color.label
         playSound(color)
-        delay(1000)
+        delay(500)
         Datos.mensajeC.value = ""
-        delay(1000)
+        delay(500)
     }
     /**
      * Función que muestra la secuencia de colores generada aleatoriamente con el metodo generarSecuencia a traves de secuenciaColores.
