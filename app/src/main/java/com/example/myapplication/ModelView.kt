@@ -157,16 +157,23 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
         }
     }
 
+    /**
+     * Clase que maneja el sonido de los botones al ser pulsados o mostrar la secuencia.
+     */
+
     class SoundManager(context: Context){
+        //Objeto para gestionar los sonidos
         private val soundPool: SoundPool
+        //Asignacion de sonido y color
         private  val soundMap: MutableMap<ColoresBotones, Int> = mutableMapOf()
 
         init {
+          //Atributos y usos de los audios, en este caso para juegos.
             val audioAttributes = AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_GAME)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build()
-
+            //Inicializacion, permitiendo solo 1 sonido a la vez.
             soundPool = SoundPool.Builder()
                 .setAudioAttributes(audioAttributes)
                 .setMaxStreams(1)
@@ -177,6 +184,9 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
             }
         }
 
+        /**
+         * Funcion que reproduce el sonido y fija su volumen y otras características.
+         */
             fun playSound(color:ColoresBotones){
                 soundMap[color]?.let { soundId ->
                     soundPool.play(soundId, 1f,1f,1,0,1f)
@@ -184,9 +194,7 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
                 }
             }
 
-            fun release() {
-                soundPool.release()
-            }
+
 
         }
     }
