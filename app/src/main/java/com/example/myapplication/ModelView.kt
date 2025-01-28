@@ -39,7 +39,7 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
     /**
      * Función que agrega un color a la secuencia de colores, tomando la informacion del color de la clase Datos.
      */
-    // In `ModelView.kt`
+
     fun generarSecuencia() {
         val randomButtonIndex = (1..4).random()
         val ColorSecuencia = ColoresBotones.values().first { it.value == randomButtonIndex }

@@ -144,6 +144,7 @@ fun Botones(viewModel: ModelView, estado: Estados, TAG_LOG: String) {
                             .padding(5.dp)
                             .size(width = 160.dp, height = 160.dp),
                         shape = RoundedCornerShape(16.dp), // Bordes redondeados para el botón
+                        enabled = estado == Estados.GENERANDO || estado == Estados.JUGANDO
                     ) {}
 
 
