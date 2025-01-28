@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.Datos.estadoLiveData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -17,20 +18,7 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
 
     private val TAG_LOG = "miDebug"
 
-    //Variable que almacena el estado del juego como observable.
-    val estadoLiveData : MutableLiveData<Estados> = MutableLiveData(Estados.INICIO)
 
-    //Lista de colores con mutableList para agregar y eliminar elementos
-    private val secuenciaColores = mutableListOf<ColoresBotones>()
-
-    //Variable que guarda el mensaje mostrado por pantalla
-    var mensajeC = mutableStateOf("")
-
-    //Variable que almacena el índice de la secuencia de colores
-    private var indiceActual = 0
-
-    //Variable de la cuenta atras
-    val cuentaAtrasLiveData : MutableLiveData<EstadosCuentaAtras?> = MutableLiveData(EstadosCuentaAtras.AUX0)
 
     /**
      * Función que inicia el juego.
@@ -43,7 +31,7 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
 
     fun empezarPartida() {
         estadoLiveData.value = Estados.GENERANDO
-        secuenciaColores.clear()
+       Datos.secuenciaColores.clear()
         generarSecuencia()
      //   cuentaAtras()
     }
@@ -55,7 +43,7 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
     fun generarSecuencia() {
         val randomButtonIndex = (1..4).random()
         val ColorSecuencia = ColoresBotones.values().first { it.value == randomButtonIndex }
-        secuenciaColores.add(ColorSecuencia)
+        Datos.secuenciaColores.add(ColorSecuencia)
         Datos.ronda.value = Datos.ronda.value?.plus(1) // Incrementa la ronda
         mostrarSecuencia()
     }
@@ -64,10 +52,10 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
      * Función que ilumina el color de la secuencia
      */
     private suspend fun iluminarColor(color: ColoresBotones) {
-        mensajeC.value = color.label
+        Datos.mensajeC.value = color.label
         playSound(color)
         delay(1000)
-        mensajeC.value = ""
+        Datos.mensajeC.value = ""
         delay(1000)
     }
     /**
@@ -75,7 +63,7 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
      */
     private fun mostrarSecuencia() {
         viewModelScope.launch {
-            for (color in secuenciaColores) {
+            for (color in Datos.secuenciaColores) {
                 iluminarColor(color)
             }
             iniciarTurnoJugador()
@@ -87,7 +75,7 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
      */
     private fun iniciarTurnoJugador() {
         estadoLiveData.value = Estados.JUGANDO
-        indiceActual = 0
+        Datos.indiceActual = 0
         cuentaAtras() // Iniciar la cuenta atrás para el turno del jugador
     }
 
@@ -95,11 +83,11 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
      * Función que compara el color seleccionado por el jugador con metodo GenerarSecuencia, si no es correcto, termina la partida.
      */
     fun compararColorSeleccionado(colorSeleccionado: ColoresBotones): Boolean {
-        if (colorSeleccionado == secuenciaColores[indiceActual]) {
-            indiceActual++
-            if (indiceActual == secuenciaColores.size) {
+        if (colorSeleccionado == Datos.secuenciaColores[Datos.indiceActual]) {
+            Datos.indiceActual++
+            if (Datos.indiceActual == Datos.secuenciaColores.size) {
                 estadoLiveData.value = Estados.GENERANDO
-                cuentaAtrasLiveData.value = EstadosCuentaAtras.AUX0
+                Datos.cuentaAtrasLiveData.value = EstadosCuentaAtras.AUX0
 
                 viewModelScope.launch {
                     delay(1500)
@@ -119,7 +107,7 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
      */
     fun terminarPartida() {
         estadoLiveData.value = Estados.PERDIDO
-        mensajeC.value = "Perdiste"
+        Datos.mensajeC.value = "Perdiste"
         //Actualización del record alcanzado
         Datos.ronda.value?.let { rondaActual ->
             if(rondaActual > (Datos.recordMaximo.value ?:0)) {
@@ -158,7 +146,7 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
                 }
 
                 // Actualizar el estado de la cuenta atrás
-                cuentaAtrasLiveData.postValue(EstadosCuentaAtras.values().find { it.segundos == i })
+                Datos.cuentaAtrasLiveData.postValue(EstadosCuentaAtras.values().find { it.segundos == i })
                 delay(1000) // Esperar 1 segundo
             }
 

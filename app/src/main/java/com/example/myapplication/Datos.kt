@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.MutableLiveData
 
@@ -12,6 +13,20 @@ object Datos {
     var numero: Int = 0
     var ronda : MutableLiveData <Int> = MutableLiveData(0)
     var recordMaximo: MutableLiveData<Int> = MutableLiveData(0)
+    //Variable que almacena el estado del juego como observable.
+    val estadoLiveData : MutableLiveData<Estados> = MutableLiveData(Estados.INICIO)
+
+    //Lista de colores con mutableList para agregar y eliminar elementos
+     val secuenciaColores = mutableListOf<ColoresBotones>()
+
+    //Variable que guarda el mensaje mostrado por pantalla
+    var mensajeC = mutableStateOf("")
+
+    //Variable que almacena el índice de la secuencia de colores
+     var indiceActual = 0
+
+    //Variable de la cuenta atras
+    val cuentaAtrasLiveData : MutableLiveData<EstadosCuentaAtras?> = MutableLiveData(EstadosCuentaAtras.AUX0)
 
 }
 
@@ -55,3 +70,5 @@ enum class EstadosCuentaAtras(val segundos: Int){
     AUX4(4),
     AUX5(5)
 }
+
+
