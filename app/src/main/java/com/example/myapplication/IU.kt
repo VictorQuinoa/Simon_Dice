@@ -39,10 +39,10 @@ import kotlinx.coroutines.delay
 @Composable
 fun IU(viewModel: ModelView) {
     val TAG_LOG = "miDebug"
-    val estado by viewModel.estadoLiveData.observeAsState(Estados.INICIO)
+    val estado by Datos.estadoLiveData.observeAsState(Estados.INICIO)//Observa el estado de la aplicacion
     val ronda by Datos.ronda.observeAsState(0) // Observa el LiveData de ronda
-    val record by Datos.recordMaximo.observeAsState()
-    val cuentaAtras by viewModel.cuentaAtrasLiveData.observeAsState(EstadosCuentaAtras.AUX5)
+    val record by Datos.recordMaximo.observeAsState() //Observa el record
+
 
 
 
@@ -84,7 +84,7 @@ fun IU(viewModel: ModelView) {
 
 @Composable
 fun cuentaAtras(viewModel: ModelView) {
-    val cuentaAtras by viewModel.cuentaAtrasLiveData.observeAsState(EstadosCuentaAtras.AUX0)
+    val cuentaAtras by Datos.cuentaAtrasLiveData.observeAsState(EstadosCuentaAtras.AUX0)//Observa la cuenta atras, actualizando la IU
 
     Text(
         text = "Cuenta atras: ${cuentaAtras?.segundos}",
@@ -102,7 +102,7 @@ fun cuentaAtras(viewModel: ModelView) {
 @Composable
 fun Botones(viewModel: ModelView, estado: Estados, TAG_LOG: String) {
     val buttons = viewModel.getButtons()
-    val mensajeC by viewModel.mensajeC
+    val mensajeC by Datos.mensajeC
     var iluminado by remember { mutableStateOf<ColoresBotones?>(null) }
 
 
