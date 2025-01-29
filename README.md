@@ -41,6 +41,8 @@ Aqui se establecen los metodos que daran funcionalidad al juego, estos metodos s
 - *terminarPartida*: En caso de que el estado pase a Perdido, lanza el mensaje de derrota.
 
 - *getButtons*: Devuelve la lista con los botones del juego
+- 
+- *cuentaAtras*: Establece un tiempo determinado para cada ronda.
 
 ### IU
 
@@ -102,6 +104,54 @@ El observer es utilizado para este proyecto para mantener la sincronizacion del 
     }
    }
    ```
+
+- La correcta funcion del temporizador de cada ronda
+  
+  ```
+  fun cuentaAtras() {
+        viewModelScope.launch {
+            for (i in 5 downTo 0) {
+                // Si el estado del juego ya no es JUGANDO, salimos del contador
+                if (estadoLiveData.value != Estados.JUGANDO) {
+                    break
+                }
+
+                // Actualizar el estado de la cuenta atrás
+                Datos.cuentaAtrasLiveData.postValue(EstadosCuentaAtras.values().find { it.segundos == i })
+                delay(1000) // Esperar 1 segundo
+            }
+
+            // Si al finalizar el contador el estado sigue siendo JUGANDO, el jugador pierde
+            if (estadoLiveData.value == Estados.JUGANDO) {
+                terminarPartida()
+            }
+        }
+    }
+  
+  ```
+  Actualizaciones.
+
+  En las mejoras de la aplicación he introducido:
+
+  - Un temporizador introducido mediante estados auxiliares que pone un limite al tiempo de cada ronda, este temporizador solo está activo cuando el estado de la aplicación es JUGANDO, reiniciándose cada ronda.
+
+  - Mejoras en el control de estados del juego, ahora los botones de juego solo se activan en los estados JUGANDO y GENERANDO.
+ 
+  - Despejada la clase ModelView de datos innecesarios.
+ 
+  - Añadido un sistema de guardar record, comparando la ronda actual con el record máximo, en caso de ser la ronda mayor al record, se actualiza.
+ 
+  - Refactorizado el método mostrar secuencia, separándolo en varios metodos.
+ 
+  ### Introducción de sonidos a la aplicación
+
+  Los sonidos han sido introducidos para cada vez que se presione un botón o este se muestre como parte de la secuencia.
+
+  Estos sonidos han sido introducidos en una carpeta res/raw y añadidos como datos en coloresBotones.
+
+  Para su uso he creado una clase que usando un objeto soundPool gestiona el uso y configuración de los sonidos, esta clase cuenta con el método play sound, introducido en el método generarSecuencia() y en el onClick de los botones en la interfaz.
+
+  
 
   ### Imagen de la aplicación 
   
