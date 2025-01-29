@@ -156,7 +156,7 @@ El observer es utilizado para este proyecto para mantener la sincronizacion del 
   ### Imagen de la aplicación 
   
   <p align="center">
-    <img src="https://github.com/VictorQuinoa/Simon_Dice/blob/main/Imagenes/Aplicacion.png?raw=true" />
+    <img src="https://github.com/VictorQuinoa/Simon_Dice/blob/main/Screenshot_20250129_100715.png?raw=true" />
   </p>
 
 
