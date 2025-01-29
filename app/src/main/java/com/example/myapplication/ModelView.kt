@@ -152,7 +152,7 @@ class ModelView(private val soundManager: SoundManager): ViewModel() {
 
             // Si al finalizar el contador el estado sigue siendo JUGANDO, el jugador pierde
             if (estadoLiveData.value == Estados.JUGANDO) {
-                estadoLiveData.postValue(Estados.PERDIDO)
+                terminarPartida()
             }
         }
     }
